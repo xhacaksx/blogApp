@@ -9,7 +9,11 @@ app.use(
     credentials: true,
   })
 );
-
+app.use(
+  express.json({
+    limit: "16kb",
+  })
+);
 app.use(cookieParser());
 
 import userRouter from "./routes/user.routes.js";

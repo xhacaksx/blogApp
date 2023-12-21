@@ -3,6 +3,7 @@ import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
 import { User } from "../models/user.models.js";
+import nodemailer from "nodemailer";
 
 const generateAccessAndRefreshTokens = async (userId) => {
   try {
@@ -52,7 +53,32 @@ const registerUser = asyncHandler(async (req, res) => {
   if (!createdUser) {
     throw new ApiError(500, "Something went wrong while registering the user");
   }
+  async function sendMail() {
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "smartakshat007@gmail.com",
+        pass: "hzxkwbcodtozhjgm",
+      },
+    });
 
+    let message = {
+      from: "smartakshat007@gmail.com", // sender address
+      to: `${user.email}`, // list of receivers
+      subject: "Registeration successful", // Subject line
+      text: `Hello ${user.username}, you are successfully registered!`, // plain text body
+    };
+
+    transporter
+      .sendMail(message)
+      .then(() => {
+        console.log("Email sent successfully!");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+  sendMail();
   return res
     .status(201)
     .json(new ApiResponse(200, createdUser, "User registered successfully"));
