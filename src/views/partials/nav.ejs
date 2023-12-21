@@ -17,24 +17,33 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="#">Home</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Add Blog</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a
-            class="nav-link dropdown-toggle"
-            href="#"
-            role="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            Akshat Agarwal
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Logout</a></li>
-            
-          </ul>
-        </li>
+        <% if (locals.user) { %>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Add Blog</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <%= locals.user.username %>
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="/api/v1/users/logout">logout</a>
+                  
+                </ul>
+              </li>
+        <% } else {%>
+            <li class="nav-item">
+                <a class="nav-link" href="/api/v1/users/register">register</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/api/v1/users/login">login</a>
+              </li>
+        <% } %>
       </ul>
     </div>
   </div>

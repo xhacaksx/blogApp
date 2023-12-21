@@ -5,7 +5,9 @@ import jwt from "jsonwebtoken";
 import { User } from "../models/user.models.js";
 
 const getBlog = asyncHandler(async (req, res) => {
-  res.render("home");
+  res.render("home", {
+    user: req.user,
+  });
 });
 
 export { getBlog };
