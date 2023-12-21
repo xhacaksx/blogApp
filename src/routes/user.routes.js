@@ -5,7 +5,7 @@ import {
   loginUser,
   logoutUser,
   refreshAccessToken,
-} from "../controllers/user.controller.js";
+} from "../controllers/user.controllers.js";
 const router = Router();
 
 router.route("/register").post(registerUser);

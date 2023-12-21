@@ -10,10 +10,10 @@ connectDB()
     app.on("error", (error) => {
       console.error("Express server error:", error);
     });
-    app.listen(process.env.PORT || 8015, () => {
+    app.listen(process.env.PORT || 8035, () => {
       console.log(` Server is running at port ${process.env.PORT}`);
     });
   })
-  .catch((error) => {
+  .catch((err) => {
     console.log("MONGO db connection failed! ", err);
   });
