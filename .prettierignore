@@ -5,4 +5,4 @@
 /.vscode
 /node_modules
 /dist
-src/views
+#src/views
