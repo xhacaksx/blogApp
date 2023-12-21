@@ -6,7 +6,7 @@ const blogSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    body: {
+    desc: {
       type: String,
       required: true,
     },
