@@ -23,6 +23,14 @@ const generateAccessAndRefreshTokens = async (userId) => {
   }
 };
 
+const getRegisterUser = asyncHandler(async (req, res) => {
+  return res.render("register");
+});
+
+const getLoginUser = asyncHandler(async (req, res) => {
+  return res.render("login");
+});
+
 const registerUser = asyncHandler(async (req, res) => {
   const { fullName, email, username, password } = req.body;
 
@@ -79,21 +87,37 @@ const registerUser = asyncHandler(async (req, res) => {
       });
   }
   sendMail();
-  return res
-    .status(201)
-    .json(new ApiResponse(200, createdUser, "User registered successfully"));
+  return (
+    res
+      .status(201)
+      //   .json(new ApiResponse(200, createdUser, "User registered successfully"));
+      .redirect("/api/v1/users/login")
+  );
 });
 
 const loginUser = asyncHandler(async (req, res) => {
-  const { username, email, password } = req.body;
-  if (!(username || email)) {
-    throw new ApiError(400, "username or password is required!");
+  //const { username, email, password } = req.body;
+  const { usernameOrEmail, password } = req.body;
+  if (!usernameOrEmail) {
+    throw new ApiError(400, "Username or email is required!");
   }
+  // if (!(username || email)) {
+  //   throw new ApiError(400, "username or password is required!");
+  // }
 
-  const user = await User.findOne({
-    $or: [{ username }, { email }],
-  });
+  // const user = await User.findOne({
+  //   $or: [{ username }, { email }],
+  // });
 
+  let user;
+  const isEmail = usernameOrEmail.includes("@");
+  if (isEmail) {
+    // If it's an email, query by email
+    user = await User.findOne({ email: usernameOrEmail });
+  } else {
+    // If it's a username, query by username
+    user = await User.findOne({ username: usernameOrEmail });
+  }
   if (!user) {
     throw new ApiError(404, "User does not exist!");
   }
@@ -119,21 +143,24 @@ const loginUser = asyncHandler(async (req, res) => {
     httpOnly: true,
     secure: true,
   };
-  return res
-    .status(200)
-    .cookie("accessToken", accessToken, options)
-    .cookie("refreshToken", refreshToken, options)
-    .json(
-      new ApiResponse(
-        200,
-        {
-          user: loggedInUser,
-          accessToken,
-          refreshToken,
-        },
-        "User logged In successfully!"
-      )
-    );
+  return (
+    res
+      .status(200)
+      .cookie("accessToken", accessToken, options)
+      .cookie("refreshToken", refreshToken, options)
+      // .json(
+      //   new ApiResponse(
+      //     200,
+      //     {
+      //       user: loggedInUser,
+      //       accessToken,
+      //       refreshToken,
+      //     },
+      //     "User logged In successfully!"
+      //   )
+      // );
+      .redirect("/api/v1/blog")
+  );
 });
 
 const logoutUser = asyncHandler(async (req, res) => {
@@ -202,4 +229,11 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
     throw new ApiError(401, error?.message || "invalid refresh token");
   }
 });
-export { registerUser, loginUser, logoutUser, refreshAccessToken };
+export {
+  getRegisterUser,
+  getLoginUser,
+  registerUser,
+  loginUser,
+  logoutUser,
+  refreshAccessToken,
+};
