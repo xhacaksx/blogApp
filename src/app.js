@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import path from "path";
+import { Blog } from "./models/blog.models.js";
 const app = express();
 
 app.set("view engine", "ejs");

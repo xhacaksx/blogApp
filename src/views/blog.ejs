@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <%- include('./partials/head') %>
+    <title>Blog</title>
+  </head>
+  <body>
+    <%- include('./partials/nav') %>
+    <div class="container mt-4">
+      <h1><%= blogs.title %></h1>
+      <pre class="mt-3"><%= blogs.desc %></pre>
+    </div>
+    <%- include('./partials/script') %>
+  </body>
+</html>

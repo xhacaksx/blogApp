@@ -91,7 +91,7 @@ const registerUser = asyncHandler(async (req, res) => {
     res
       .status(201)
       //   .json(new ApiResponse(200, createdUser, "User registered successfully"));
-      .redirect("/api/v1/users/login")
+      .render("login")
   );
 });
 

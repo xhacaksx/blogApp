@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <%- include('./partials/head') %>
@@ -6,9 +6,24 @@
   </head>
   <body>
     <%- include('./partials/nav') %>
-     <% if (locals.user) { %> 
-      <%= blogs %>
-    <% } %>
+      <div class="container mt-3">
+        <div class="row">
+         <% if(locals.user){%>
+          <% blogs.forEach(blog => { %>
+            <div class="col-md-3 mb-3"> <!-- Added mb-3 for margin at the bottom -->
+              <div class="card" style="width: 16rem; height: 9rem;">
+                <!-- <img src="..." class="card-img-top" alt="..."> -->
+                <div class="card-body">
+                  <h5 class="card-title"><%= blog.title %></h5>
+                  <!-- <p class="card-text"><%= blog.desc %></p> -->
+                  <a href="/api/v1/blog/<%= blog._id %>" class="btn btn-primary">View</a>
+                </div>
+              </div>
+            </div>
+          <% }) %>
+        </div>
+      </div>
+      <% }%>
     <%- include('./partials/script') %>
   </body>
 </html>

@@ -4,10 +4,17 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
 import { Blog } from "../models/blog.models.js";
 
+// const getAllBlog = asyncHandler(async (req, res) => {
+//   const allBlogs = await Blog.find({});
+//   //console.log(allBlogs);
+//   res.render("home", {
+//     blogs: allBlogs,
+//   });
+// });
+
 const getBlog = asyncHandler(async (req, res) => {
-  const userId = req.user._id;
-  //console.log(userId);
-  const allBlogs = await Blog.find({ createdBy: userId });
+  const allBlogs = await Blog.find({}); //createdBy: userId
+  //console.log(allBlogs);
   res.render("home", {
     user: req.user,
     blogs: allBlogs,
@@ -36,4 +43,13 @@ const addBlog = asyncHandler(async (req, res) => {
   res.redirect("/api/v1/blog");
 });
 
-export { getBlog, addBlog, addBlogRender };
+const viewBlog = asyncHandler(async (req, res) => {
+  const blogs = await Blog.findById(req.params.id).populate("createdBy");
+  //console.log(blog);
+  return res.render("blog", {
+    user: req.user,
+    blogs,
+  });
+});
+
+export { getBlog, addBlog, addBlogRender, viewBlog };
