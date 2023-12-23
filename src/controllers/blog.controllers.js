@@ -44,11 +44,11 @@ const addBlog = asyncHandler(async (req, res) => {
 });
 
 const viewBlog = asyncHandler(async (req, res) => {
-  const blogs = await Blog.findById(req.params.id).populate("createdBy");
+  const allBlogs = await Blog.findById(req.params.id).populate("createdBy");
   //console.log(blog);
   return res.render("blog", {
     user: req.user,
-    blogs,
+    blog: allBlogs,
   });
 });
 
