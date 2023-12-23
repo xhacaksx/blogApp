@@ -7,7 +7,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon -r dotenv/config src/index.js",
-    "start": "node src/app.js"
+    "start": "node src/app.js",
+    "build": "echo 'No build step needed'"
   },
   "author": "",
   "license": "ISC",
